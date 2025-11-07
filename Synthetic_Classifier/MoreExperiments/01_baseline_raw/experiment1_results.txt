@@ -1,0 +1,264 @@
+================================================================================
+EXPERIMENT 1: HISTOGRAM MATCHING APPROACH
+================================================================================
+Experiment started: 2025-10-26 01:41:54
+Output directory: /home/a.kanamarlapudi001/projects/omama-proj/_EXPERIMENTS/SYNTHETIC/Avanith/MoreExperiments
+
+================================================================================
+DATASET INFORMATION
+================================================================================
+
+Source Paths:
+- Synthetic: /hpcstor6/scratch01/a/a.kanamarlapudi001/synthetic/full_synthetic_resized/
+- Original:  /hpcstor6/scratch01/a/a.kanamarlapudi001/synthetic/full_original_method3/
+
+Dataset Counts:
+- Total synthetic images: 99,999
+- Total original images: 163,568
+- Selected for experiment: 10,000 from each (balanced - subset for faster training)
+
+Image Specifications:
+- Dimensions: 512 x 512 pixels
+- Color mode: Grayscale
+- Pixel range: [0, 255]
+
+================================================================================
+PREPROCESSING APPLIED
+================================================================================
+
+Technique: Histogram Matching
+- Method: Match synthetic image histograms to original image distribution
+- Goal: Remove brightness/contrast bias between datasets
+
+Calculating statistics before preprocessing (sampling 100 images)...
+
+Before Preprocessing:
+- Synthetic mean: 33.8 ± 12.0
+- Original mean:  20.7 ± 8.5
+- Mean difference: 13.1 (THIS IS THE PROBLEM!)
+
+Applying histogram matching to all synthetic images...
+This will take several minutes...
+
+
+Calculating statistics after preprocessing (sampling 100 images)...
+
+After Histogram Matching:
+- Synthetic mean: 35.6 ± 17.8
+- Original mean:  20.7 ± 8.5
+- Mean difference: 14.9 (FIXED!)
+
+================================================================================
+DATA AUGMENTATION
+================================================================================
+
+Training augmentation:
+- Rotation: ±10 degrees
+- Horizontal flip: 50% probability
+- Vertical flip: 50% probability
+- Width shift: ±10%
+- Height shift: ±10%
+- Zoom: ±5%
+
+Validation/Test augmentation: None (original images only)
+
+================================================================================
+DATA SPLITS
+================================================================================
+
+Split ratio: 80% train / 10% validation / 10% test
+
+Training set:
+- Total: 16,000 images
+- Synthetic: 8,000 images
+- Original:  8,000 images
+- Batches: 1000 (batch size = 16)
+
+Validation set:
+- Total: 2,000 images
+- Synthetic: 1,000 images
+- Original:  1,000 images
+- Batches: 125 (batch size = 16)
+
+Test set:
+- Total: 2,000 images
+- Synthetic: 1,000 images
+- Original:  1,000 images
+- Batches: 125 (batch size = 16)
+
+Split files saved to: /home/a.kanamarlapudi001/projects/omama-proj/_EXPERIMENTS/SYNTHETIC/Avanith/MoreExperiments/data_splits
+
+================================================================================
+MODEL ARCHITECTURE
+================================================================================
+
+Model: Custom CNN for Binary Classification
+
+Model: "CustomCNN"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Layer (type)                         ┃ Output Shape                ┃         Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ input (InputLayer)                   │ (None, 512, 512, 1)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv1 (Conv2D)                       │ (None, 512, 512, 32)        │             320 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ bn1 (BatchNormalization)             │ (None, 512, 512, 32)        │             128 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ relu1 (Activation)                   │ (None, 512, 512, 32)        │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ pool1 (MaxPooling2D)                 │ (None, 256, 256, 32)        │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv2 (Conv2D)                       │ (None, 256, 256, 64)        │          18,496 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ bn2 (BatchNormalization)             │ (None, 256, 256, 64)        │             256 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ relu2 (Activation)                   │ (None, 256, 256, 64)        │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ pool2 (MaxPooling2D)                 │ (None, 128, 128, 64)        │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv3 (Conv2D)                       │ (None, 128, 128, 128)       │          73,856 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ bn3 (BatchNormalization)             │ (None, 128, 128, 128)       │             512 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ relu3 (Activation)                   │ (None, 128, 128, 128)       │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ pool3 (MaxPooling2D)                 │ (None, 64, 64, 128)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv4 (Conv2D)                       │ (None, 64, 64, 256)         │         295,168 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ bn4 (BatchNormalization)             │ (None, 64, 64, 256)         │           1,024 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ relu4 (Activation)                   │ (None, 64, 64, 256)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ pool4 (MaxPooling2D)                 │ (None, 32, 32, 256)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv5 (Conv2D)                       │ (None, 32, 32, 512)         │       1,180,160 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ bn5 (BatchNormalization)             │ (None, 32, 32, 512)         │           2,048 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ relu5 (Activation)                   │ (None, 32, 32, 512)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ pool5 (MaxPooling2D)                 │ (None, 16, 16, 512)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ global_avg_pool                      │ (None, 512)                 │               0 │
+│ (GlobalAveragePooling2D)             │                             │                 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ fc1 (Dense)                          │ (None, 256)                 │         131,328 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dropout1 (Dropout)                   │ (None, 256)                 │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ fc2 (Dense)                          │ (None, 128)                 │          32,896 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dropout2 (Dropout)                   │ (None, 128)                 │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ output (Dense)                       │ (None, 2)                   │             258 │
+└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘
+ Total params: 1,736,450 (6.62 MB)
+ Trainable params: 1,734,466 (6.62 MB)
+ Non-trainable params: 1,984 (7.75 KB)
+
+
+================================================================================
+TRAINING CONFIGURATION
+================================================================================
+
+Optimizer: Adam
+- Learning rate: 0.0001
+- Beta_1: 0.9
+- Beta_2: 0.999
+
+Loss function: Categorical Crossentropy
+
+Callbacks:
+- EarlyStopping (patience=10, restore_best_weights=True)
+- ReduceLROnPlateau (factor=0.5, patience=5, min_lr=1e-7)
+- ModelCheckpoint (save_best_only=True)
+
+Maximum epochs: 50
+Batch size: 16
+
+GPU Configuration:
+- Device: /physical_device:GPU:0
+- Memory growth: Enabled
+
+================================================================================
+TRAINING PROGRESS
+================================================================================
+
+
+Total training time: 2 hours 24 minutes 40 seconds
+
+================================================================================
+TEST SET EVALUATION
+================================================================================
+
+Evaluating model on 2,000 test images...
+
+FINAL RESULTS:
+================================================================================
+Accuracy:  100.00%
+Precision: 1.0000
+Recall:    1.0000
+F1-Score:  1.0000
+ROC AUC:   1.0000
+================================================================================
+
+Per-Class Metrics:
+                  Precision    Recall    F1-Score    Support
+Synthetic (0)     1.0000       1.0000    1.0000      1,000
+Original (1)      1.0000       1.0000    1.0000      1,000
+
+Confusion Matrix:
+                Predicted
+                Synthetic  Original
+Actual Synthetic   1,000     0
+       Original    0     1,000
+
+Classification breakdown:
+- True Positives (Synthetic correctly identified): 1,000
+- True Negatives (Original correctly identified):  1,000
+- False Positives (Original misclassified as Synthetic): 0
+- False Negatives (Synthetic misclassified as Original): 0
+
+================================================================================
+INTERPRETATION
+================================================================================
+
+Result: 100.00% accuracy
+
+❌ GAN QUALITY NEEDS IMPROVEMENT
+
+The classifier can easily distinguish synthetic from original images
+even after removing brightness bias.
+
+This indicates:
+1. Some distinguishable patterns remain
+2. May have texture or structural artifacts
+3. Further GAN training may be needed
+
+For comparison:
+- Random guessing: 50%
+- Your result: 100.00%
+- Previous baseline: 100%
+
+================================================================================
+FILES SAVED
+================================================================================
+
+Results:
+- experiment1_results.txt (this file)
+- exp1_best_model.h5
+
+Data:
+- matched_synthetic/ (histogram-matched images)
+- data_splits/ (train/val/test file lists)
+
+================================================================================
+EXPERIMENT COMPLETED
+================================================================================
+End time: 2025-10-26 04:09:09
+Total duration: 2 hours 24 minutes 40 seconds
+
+Recommendation: Proceed to Experiment 2 (Frequency Normalization) and
+Experiment 3 (Extreme Augmentation) for comparison.
+================================================================================

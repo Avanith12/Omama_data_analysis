@@ -1,0 +1,249 @@
+================================================================================
+EXPERIMENT 2: FREQUENCY DOMAIN NORMALIZATION
+================================================================================
+Experiment started: 2025-10-26 01:43:22
+Output directory: /home/a.kanamarlapudi001/projects/omama-proj/_EXPERIMENTS/SYNTHETIC/Avanith/MoreExperiments
+
+================================================================================
+DATASET INFORMATION
+================================================================================
+
+Source Paths:
+- Synthetic: /hpcstor6/scratch01/a/a.kanamarlapudi001/synthetic/full_synthetic_resized/
+- Original:  /hpcstor6/scratch01/a/a.kanamarlapudi001/synthetic/full_original_method3/
+
+Dataset Counts:
+- Total synthetic images: 99,999
+- Total original images: 163,568
+- Selected for experiment: 10,000 from each (balanced - subset for faster training)
+
+Image Specifications:
+- Dimensions: 512 x 512 pixels
+- Color mode: Grayscale
+- Pixel range: [0, 255]
+
+================================================================================
+PREPROCESSING APPLIED
+================================================================================
+
+Technique: Frequency Domain Normalization (FFT)
+- Method: Transform to frequency domain, normalize magnitude spectrum
+- Goal: Remove GAN artifacts in frequency components
+
+Processing details:
+1. Apply 2D Fast Fourier Transform (FFT)
+2. Separate magnitude and phase components
+3. Normalize magnitude spectrum (mean=0, std=1)
+4. Reconstruct image from normalized magnitude + original phase
+5. Inverse FFT to return to spatial domain
+
+This removes systematic frequency patterns that GANs may introduce.
+
+Applying frequency normalization to ALL images...
+This will take several minutes...
+
+
+Frequency normalization complete!
+- Processed synthetic images saved to: /home/a.kanamarlapudi001/projects/omama-proj/_EXPERIMENTS/SYNTHETIC/Avanith/MoreExperiments/freq_normalized_synthetic
+- Processed original images saved to: /home/a.kanamarlapudi001/projects/omama-proj/_EXPERIMENTS/SYNTHETIC/Avanith/MoreExperiments/freq_normalized_original
+
+================================================================================
+DATA AUGMENTATION
+================================================================================
+
+Training augmentation:
+- Rotation: ±10 degrees
+- Horizontal flip: 50% probability
+- Vertical flip: 50% probability
+- Width shift: ±10%
+- Height shift: ±10%
+- Zoom: ±5%
+
+Validation/Test augmentation: None (original images only)
+
+================================================================================
+DATA SPLITS
+================================================================================
+
+Split ratio: 80% train / 10% validation / 10% test
+
+Training set:
+- Total: 16,000 images
+- Synthetic: 8,000 images
+- Original:  8,000 images
+- Batches: 1000 (batch size = 16)
+
+Validation set:
+- Total: 2,000 images
+- Synthetic: 1,000 images
+- Original:  1,000 images
+- Batches: 125 (batch size = 16)
+
+Test set:
+- Total: 2,000 images
+- Synthetic: 1,000 images
+- Original:  1,000 images
+- Batches: 125 (batch size = 16)
+
+Split files saved to: /home/a.kanamarlapudi001/projects/omama-proj/_EXPERIMENTS/SYNTHETIC/Avanith/MoreExperiments/data_splits
+
+================================================================================
+MODEL ARCHITECTURE
+================================================================================
+
+Model: Custom CNN for Binary Classification
+
+Model: "CustomCNN"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Layer (type)                        ┃ Output Shape               ┃         Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ input (InputLayer)                  │ (None, 512, 512, 1)        │               0 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ conv1 (Conv2D)                      │ (None, 512, 512, 32)       │             320 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ bn1 (BatchNormalization)            │ (None, 512, 512, 32)       │             128 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ relu1 (Activation)                  │ (None, 512, 512, 32)       │               0 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ pool1 (MaxPooling2D)                │ (None, 256, 256, 32)       │               0 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ conv2 (Conv2D)                      │ (None, 256, 256, 64)       │          18,496 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ bn2 (BatchNormalization)            │ (None, 256, 256, 64)       │             256 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ relu2 (Activation)                  │ (None, 256, 256, 64)       │               0 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ pool2 (MaxPooling2D)                │ (None, 128, 128, 64)       │               0 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ conv3 (Conv2D)                      │ (None, 128, 128, 128)      │          73,856 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ bn3 (BatchNormalization)            │ (None, 128, 128, 128)      │             512 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ relu3 (Activation)                  │ (None, 128, 128, 128)      │               0 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ pool3 (MaxPooling2D)                │ (None, 64, 64, 128)        │               0 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ conv4 (Conv2D)                      │ (None, 64, 64, 256)        │         295,168 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ bn4 (BatchNormalization)            │ (None, 64, 64, 256)        │           1,024 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ relu4 (Activation)                  │ (None, 64, 64, 256)        │               0 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ pool4 (MaxPooling2D)                │ (None, 32, 32, 256)        │               0 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ conv5 (Conv2D)                      │ (None, 32, 32, 512)        │       1,180,160 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ bn5 (BatchNormalization)            │ (None, 32, 32, 512)        │           2,048 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ relu5 (Activation)                  │ (None, 32, 32, 512)        │               0 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ pool5 (MaxPooling2D)                │ (None, 16, 16, 512)        │               0 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ global_avg_pool                     │ (None, 512)                │               0 │
+│ (GlobalAveragePooling2D)            │                            │                 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ fc1 (Dense)                         │ (None, 256)                │         131,328 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ dropout1 (Dropout)                  │ (None, 256)                │               0 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ fc2 (Dense)                         │ (None, 128)                │          32,896 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ dropout2 (Dropout)                  │ (None, 128)                │               0 │
+├─────────────────────────────────────┼────────────────────────────┼─────────────────┤
+│ output (Dense)                      │ (None, 2)                  │             258 │
+└─────────────────────────────────────┴────────────────────────────┴─────────────────┘
+ Total params: 1,736,450 (6.62 MB)
+ Trainable params: 1,734,466 (6.62 MB)
+ Non-trainable params: 1,984 (7.75 KB)
+
+
+================================================================================
+TRAINING CONFIGURATION
+================================================================================
+
+Optimizer: Adam
+- Learning rate: 0.0001
+
+Loss function: Categorical Crossentropy
+
+Callbacks:
+- EarlyStopping (patience=10, restore_best_weights=True)
+- ReduceLROnPlateau (factor=0.5, patience=5, min_lr=1e-7)
+- ModelCheckpoint (save_best_only=True)
+
+Maximum epochs: 50
+Batch size: 16
+
+GPU Configuration:
+- Device: /physical_device:GPU:0
+- Memory growth: Enabled
+
+================================================================================
+TRAINING PROGRESS
+================================================================================
+
+
+Total training time: 0 hours 46 minutes 24 seconds
+
+================================================================================
+TEST SET EVALUATION
+================================================================================
+
+Evaluating model on 2,000 test images...
+
+FINAL RESULTS:
+================================================================================
+Accuracy:  88.95%
+Precision: 0.8934
+Recall:    0.8895
+F1-Score:  0.8892
+ROC AUC:   0.9670
+================================================================================
+
+Per-Class Metrics:
+                  Precision    Recall    F1-Score    Support
+Synthetic (0)     0.9323       0.8400    0.8837      1,000
+Original (1)      0.8544       0.9390    0.8947      1,000
+
+Confusion Matrix:
+                Predicted
+                Synthetic  Original
+Actual Synthetic   840     160
+       Original    61     939
+
+================================================================================
+INTERPRETATION
+================================================================================
+
+Result: 88.95% accuracy
+
+❌ GAN has strong frequency signatures
+
+The classifier can easily detect GAN patterns in frequency domain.
+
+Comparison:
+- Random guessing: 50%
+- Your result: 88.95%
+- Previous baseline: 100%
+
+================================================================================
+FILES SAVED
+================================================================================
+
+Results:
+- experiment2_results.txt (this file)
+- exp2_best_model.h5
+
+Data:
+- freq_normalized_synthetic/ (FFT-normalized synthetic images)
+- freq_normalized_original/ (FFT-normalized original images)
+- data_splits/ (train/val/test file lists)
+
+================================================================================
+EXPERIMENT COMPLETED
+================================================================================
+End time: 2025-10-26 02:44:39
+Total duration: 0 hours 46 minutes 24 seconds
+
+Recommendation: Compare with Experiment 1 and 3 results.
+================================================================================

@@ -1,0 +1,258 @@
+================================================================================
+EXPERIMENT 6: CLEAN EVALUATION (ANNOTATIONS REMOVED)
+================================================================================
+Experiment started: 2025-10-30 22:09:03
+Output directory: /home/a.kanamarlapudi001/projects/omama-proj/_EXPERIMENTS/SYNTHETIC/Avanith/MoreExperiments/experiment6_clean_evaluation/
+
+Goal:
+Fair evaluation with text annotations removed and identical preprocessing
+
+================================================================================
+STEP 1: REMOVING TEXT ANNOTATIONS FROM ORIGINAL IMAGES
+================================================================================
+
+Found 163568 original images
+
+Processing 163568 images to remove annotations...
+This will take approximately 1-2 hours...
+
+
+✅ Annotation removal complete!
+Cleaned images saved to: /hpcstor6/scratch01/a/a.kanamarlapudi001/synthetic/cleaned_originals/
+
+Creating before/after visualization...
+✅ Before/after visualization saved
+
+================================================================================
+STEP 2: DATASET PREPARATION
+================================================================================
+
+Dataset counts:
+- Synthetic images: 99999
+- Cleaned original images: 163568
+
+Balancing dataset to 99999 images per class
+
+Split sizes:
+- Train: 79999 per class (159998 total)
+- Val:   9999 per class (19998 total)
+- Test:  10001 per class (20002 total)
+
+✅ Data splits created and saved
+
+================================================================================
+STEP 3: DATA PREPROCESSING
+================================================================================
+
+Preprocessing strategy: SIMPLE and IDENTICAL for both classes
+- Load image as grayscale
+- Convert to float32
+- Normalize to [0, 1]: img / 255.0
+- NO per-image normalization
+- NO augmentation
+- NO DICOM windowing
+- NO frequency normalization
+
+This ensures a FAIR comparison!
+
+Data generators created:
+- Train batches: 5000
+- Val batches:   625
+- Test batches:  626
+
+================================================================================
+STEP 4: MODEL ARCHITECTURE
+================================================================================
+
+Model: Custom CNN for Binary Classification
+
+Model: "CustomCNN"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Layer (type)                         ┃ Output Shape                ┃         Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ input (InputLayer)                   │ (None, 512, 512, 1)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv1 (Conv2D)                       │ (None, 512, 512, 32)        │             320 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ bn1 (BatchNormalization)             │ (None, 512, 512, 32)        │             128 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ relu1 (Activation)                   │ (None, 512, 512, 32)        │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ pool1 (MaxPooling2D)                 │ (None, 256, 256, 32)        │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv2 (Conv2D)                       │ (None, 256, 256, 64)        │          18,496 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ bn2 (BatchNormalization)             │ (None, 256, 256, 64)        │             256 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ relu2 (Activation)                   │ (None, 256, 256, 64)        │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ pool2 (MaxPooling2D)                 │ (None, 128, 128, 64)        │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv3 (Conv2D)                       │ (None, 128, 128, 128)       │          73,856 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ bn3 (BatchNormalization)             │ (None, 128, 128, 128)       │             512 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ relu3 (Activation)                   │ (None, 128, 128, 128)       │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ pool3 (MaxPooling2D)                 │ (None, 64, 64, 128)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv4 (Conv2D)                       │ (None, 64, 64, 256)         │         295,168 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ bn4 (BatchNormalization)             │ (None, 64, 64, 256)         │           1,024 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ relu4 (Activation)                   │ (None, 64, 64, 256)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ pool4 (MaxPooling2D)                 │ (None, 32, 32, 256)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv5 (Conv2D)                       │ (None, 32, 32, 512)         │       1,180,160 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ bn5 (BatchNormalization)             │ (None, 32, 32, 512)         │           2,048 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ relu5 (Activation)                   │ (None, 32, 32, 512)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ pool5 (MaxPooling2D)                 │ (None, 16, 16, 512)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ global_avg_pool                      │ (None, 512)                 │               0 │
+│ (GlobalAveragePooling2D)             │                             │                 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ fc1 (Dense)                          │ (None, 256)                 │         131,328 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dropout1 (Dropout)                   │ (None, 256)                 │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ fc2 (Dense)                          │ (None, 128)                 │          32,896 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dropout2 (Dropout)                   │ (None, 128)                 │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ output (Dense)                       │ (None, 2)                   │             258 │
+└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘
+ Total params: 1,736,450 (6.62 MB)
+ Trainable params: 1,734,466 (6.62 MB)
+ Non-trainable params: 1,984 (7.75 KB)
+
+
+
+================================================================================
+STEP 5: TRAINING
+================================================================================
+
+Training configuration:
+- Optimizer: Adam (lr=0.0001)
+- Loss: Sparse Categorical Crossentropy
+- Max epochs: 50
+- Batch size: 32
+- Callbacks: EarlyStopping, ReduceLROnPlateau, ModelCheckpoint
+
+Starting training...
+
+
+✅ Training completed in 2:46:43.696143
+
+Creating training curves visualization...
+✅ Training curves saved
+
+================================================================================
+STEP 7: EVALUATION ON TEST SET
+================================================================================
+
+Evaluating on 20002 test images...
+
+================================================================================
+FINAL RESULTS
+================================================================================
+Accuracy:  100.00%
+Precision: 1.0000
+Recall:    1.0000
+F1-Score:  1.0000
+ROC AUC:   1.0000
+================================================================================
+
+Per-Class Metrics:
+                    Precision     Recall   F1-Score    Support
+Synthetic (0)        1.0000     1.0000     1.0000      10001
+Original (1)         1.0000     1.0000     1.0000      10001
+
+Confusion Matrix:
+                            Predicted
+                  Synthetic   Original
+Actual Synthetic      10001          0
+       Original           0      10001
+
+Creating visualizations...
+
+✅ Confusion matrix saved
+✅ ROC curve saved
+✅ Precision-recall curve saved
+Creating sample predictions visualization...
+✅ Sample predictions saved
+
+✅ All visualizations complete!
+
+================================================================================
+COMPARISON WITH PREVIOUS EXPERIMENTS
+================================================================================
+
+Previous results:
+- Experiment 1 (Histogram Matching):     100.00% (text annotations present)
+- Experiment 2 (Frequency Normalization): 88.90% (text in frequency domain)
+- Experiment 3 (Extreme Augmentation):   100.00% (text annotations present)
+- Experiment 4 (Verification):            86.65% (text in frequency domain)
+- Experiment 6 (CLEAN):                   100.00% ← FAIR RESULT
+
+================================================================================
+INTERPRETATION
+================================================================================
+
+Result: 100.00% accuracy
+
+GAN HAS DETECTABLE ARTIFACTS - Structural/textural differences
+
+This represents a FAIR evaluation because:
+1. Text annotations removed from originals
+2. Identical simple preprocessing (img/255.0) for both classes
+3. No augmentation during test
+4. Large test set (20,000 images)
+
+This is the TRUE measure of GAN quality for your OMAMA database paper!
+
+================================================================================
+FILES SAVED
+================================================================================
+
+All outputs saved to: /home/a.kanamarlapudi001/projects/omama-proj/_EXPERIMENTS/SYNTHETIC/Avanith/MoreExperiments/experiment6_clean_evaluation/
+
+Cleaned Data:
+- /hpcstor6/scratch01/a/a.kanamarlapudi001/synthetic/cleaned_originals/ (99999 images)
+
+Models:
+- models/best_model.h5
+- models/final_model.h5
+
+Results:
+- experiment6_results.txt (this file)
+- training_history.json
+
+Visualizations:
+- visualizations/before_after_cleaning.png
+- visualizations/training_curves.png
+- visualizations/confusion_matrix.png
+- visualizations/roc_curve.png
+- visualizations/precision_recall_curve.png
+- visualizations/sample_predictions.png
+
+Data Splits:
+- data_splits/train_synthetic.txt
+- data_splits/train_original.txt
+- data_splits/val_synthetic.txt
+- data_splits/val_original.txt
+- data_splits/test_synthetic.txt
+- data_splits/test_original.txt
+
+================================================================================
+EXPERIMENT 6 COMPLETED SUCCESSFULLY!
+================================================================================
+End time: 2025-10-31 01:12:22
+Total duration: 2:48:58.021378
+
+================================================================================
+READY FOR PUBLICATION!
+================================================================================

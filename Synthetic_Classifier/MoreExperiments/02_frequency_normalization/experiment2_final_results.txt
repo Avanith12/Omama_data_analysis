@@ -1,0 +1,16 @@
+======================================================================
+EXPERIMENT 2: FREQUENCY NORMALIZATION - FINAL RESULTS
+======================================================================
+
+Test Set Size: 2000 images
+Accuracy:  88.90%
+Precision: 0.8931
+Recall:    0.8890
+F1-Score:  0.8887
+ROC AUC:   0.9670
+
+Confusion Matrix:
+Synthetic correctly classified: 838
+Synthetic misclassified: 162
+Original correctly classified: 940
+Original misclassified: 60

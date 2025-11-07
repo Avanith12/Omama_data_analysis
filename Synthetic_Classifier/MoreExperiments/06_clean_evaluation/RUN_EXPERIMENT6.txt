@@ -1,0 +1,86 @@
+================================================================================
+HOW TO RUN EXPERIMENT 6: CLEAN EVALUATION
+================================================================================
+
+STEP 1: Start tmux session
+---------------------------
+tmux new -s exp6_clean
+
+STEP 2: Navigate to directory
+------------------------------
+cd /home/a.kanamarlapudi001/projects/omama-proj/_EXPERIMENTS/SYNTHETIC/Avanith/MoreExperiments
+
+STEP 3: Activate environment (if needed)
+-----------------------------------------
+conda activate tf_gpu_env
+
+STEP 4: Run the experiment
+---------------------------
+python experiment6_clean_evaluation.py
+
+STEP 5: Detach from tmux (leave it running)
+--------------------------------------------
+Press: Ctrl+b, then d
+
+STEP 6: Check progress later
+-----------------------------
+tmux attach -t exp6_clean
+
+STEP 7: Monitor results file in real-time (optional)
+-----------------------------------------------------
+tail -f /home/a.kanamarlapudi001/projects/omama-proj/_EXPERIMENTS/SYNTHETIC/Avanith/MoreExperiments/experiment6_clean_evaluation/experiment6_results.txt
+
+================================================================================
+EXPECTED RUNTIME
+================================================================================
+Step 1: Annotation removal    ~ 1-2 hours
+Step 2: Dataset prep           ~ 5 minutes
+Step 3-5: Training             ~ 2-3 hours
+Step 6-9: Evaluation & Viz     ~ 10 minutes
+
+TOTAL: ~4-5 hours
+
+================================================================================
+WHAT YOU'LL GET
+================================================================================
+
+Folder: experiment6_clean_evaluation/
+├── cleaned_originals/                   (in scratch storage)
+├── models/
+│   ├── best_model.h5
+│   └── final_model.h5
+├── visualizations/
+│   ├── before_after_cleaning.png
+│   ├── training_curves.png
+│   ├── confusion_matrix.png
+│   ├── roc_curve.png
+│   ├── precision_recall_curve.png
+│   └── sample_predictions.png
+├── data_splits/
+│   ├── train_synthetic.txt
+│   ├── train_original.txt
+│   ├── val_synthetic.txt
+│   ├── val_original.txt
+│   ├── test_synthetic.txt
+│   └── test_original.txt
+├── experiment6_results.txt              ← MAIN RESULTS FILE
+└── training_history.json
+
+================================================================================
+FOR YOUR PAPER
+================================================================================
+
+After completion, open: experiment6_results.txt
+
+You'll find:
+- Final accuracy (the REAL, PUBLISHABLE number!)
+- Precision, Recall, F1-score
+- ROC AUC
+- Confusion matrix
+- Comparison with previous experiments
+- Interpretation of results
+
+All visualizations will be ready for your paper!
+
+================================================================================
+
