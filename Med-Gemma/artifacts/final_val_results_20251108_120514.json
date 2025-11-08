@@ -1,0 +1,94 @@
+{
+  "timestamp": "2025-11-08T12:05:14.355711",
+  "data_dir": "/hpcstor6/scratch01/a/a.kanamarlapudi001/med-gemma/hf_proc_messages_metadata_with_val",
+  "base_model": "google/medgemma-4b-it",
+  "finetune_dir": "/hpcstor6/scratch01/a/a.kanamarlapudi001/med-gemma/runs/medgemma_balanced_lora/checkpoint-581",
+  "n_samples": 1625,
+  "class_names": [
+    "IndexCancer",
+    "NonCancer"
+  ],
+  "label_distribution": {
+    "IndexCancer": 833,
+    "NonCancer": 792
+  },
+  "parser_type": "lenient_datacamp_style",
+  "baseline_metrics": {
+    "accuracy": 0.7341538461538462,
+    "f1": 0.719458226265407,
+    "precision_noncancer": 0.6517706576728499,
+    "recall_noncancer": 0.976010101010101,
+    "f1_noncancer": 0.78159757330637,
+    "support_noncancer": 792.0,
+    "precision_cancer": 0.9567198177676538,
+    "recall_cancer": 0.5042016806722689,
+    "f1_cancer": 0.660377358490566,
+    "support_cancer": 833.0,
+    "sensitivity": 0.5042016806722689,
+    "specificity": 0.976010101010101,
+    "ppv": 0.9567198177676538,
+    "npv": 0.6517706576728499,
+    "false_positive_rate": 0.023989898989898988,
+    "false_negative_rate": 0.4957983193277311,
+    "true_negatives": 773.0,
+    "false_positives": 19.0,
+    "false_negatives": 413.0,
+    "true_positives": 420.0,
+    "n_invalid_predictions": 0.0,
+    "invalid_prediction_rate": 0.0
+  },
+  "finetuned_metrics": {
+    "accuracy": 1.0,
+    "f1": 1.0,
+    "precision_noncancer": 1.0,
+    "recall_noncancer": 1.0,
+    "f1_noncancer": 1.0,
+    "support_noncancer": 792.0,
+    "precision_cancer": 1.0,
+    "recall_cancer": 1.0,
+    "f1_cancer": 1.0,
+    "support_cancer": 833.0,
+    "sensitivity": 1.0,
+    "specificity": 1.0,
+    "ppv": 1.0,
+    "npv": 1.0,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.0,
+    "true_negatives": 792.0,
+    "false_positives": 0.0,
+    "false_negatives": 0.0,
+    "true_positives": 833.0,
+    "n_invalid_predictions": 0.0,
+    "invalid_prediction_rate": 0.0
+  },
+  "improvements": {
+    "accuracy_delta": 0.26584615384615384,
+    "sensitivity_delta": 0.4957983193277311,
+    "specificity_delta": 0.023989898989899006,
+    "f1_delta": 0.280541773734593,
+    "false_negative_rate_delta": 0.4957983193277311
+  },
+  "parser_statistics": {
+    "baseline": {
+      "matched_letter_a": 1015,
+      "substring_noncancer": 100,
+      "substring_cancer_generic": 378,
+      "negation_detected: benign": 25,
+      "positive_cancer_pattern: (?:suggests?|indicates?)\\s+(?:\\w+\\s+){0,3}(?:malignancy|cancer)": 49,
+      "positive_cancer_pattern: (?:suspicious|possible|probable|likely)\\s+(?:\\w+\\s+){0,3}cancer": 12,
+      "negation_detected: normal\\s+finding": 5,
+      "negation_detected: no\\s+(?:obvious\\s+)?(?:signs?\\s+of\\s+)?cancer": 32,
+      "negation_detected: non-?cancerous": 1,
+      "negation_detected: normal.*no.*cancer": 6,
+      "negation_detected: absence\\s+of.*(?:masses|cancer)": 2
+    },
+    "finetuned": {
+      "substring_cancer_generic": 833,
+      "substring_noncancer": 792
+    }
+  },
+  "debug_files": {
+    "baseline": "/hpcstor6/scratch01/a/a.kanamarlapudi001/med-gemma/runs/final_val_debug_baseline.jsonl",
+    "finetuned": "/hpcstor6/scratch01/a/a.kanamarlapudi001/med-gemma/runs/final_val_debug_finetuned.jsonl"
+  }
+}
