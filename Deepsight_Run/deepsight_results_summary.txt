@@ -1,0 +1,38 @@
+================================================================================
+DEEPSIGHT PERFORMANCE RESULTS
+================================================================================
+
+Dataset: Edward's balanced dataset (validation set only)
+Samples: 2,942
+AUC-ROC: 0.8505
+Threshold Used: 0.5 (DeepSight standard)
+
+================================================================================
+METRICS FOR COMPARISON WITH MEDGEMMA (Threshold = 0.5)
+================================================================================
+Accuracy:    75.46%
+Sensitivity: 58.94%
+Specificity: 91.98%
+F1 Score:    70.60%
+
+================================================================================
+CONFUSION MATRIX
+================================================================================
+True Positives:  867
+False Positives: 118
+True Negatives:  1353
+False Negatives: 604
+
+================================================================================
+NOTE
+================================================================================
+Optimal threshold (Youden's J): 0.3221
+But using 0.5 for fair comparison (DeepSight's standard threshold)
+
+================================================================================
+OUTPUT FILES
+================================================================================
+/home/a.kanamarlapudi001/projects/omama-proj/avanith/deepsightv/deepsight_scores.csv
+/home/a.kanamarlapudi001/projects/omama-proj/avanith/deepsightv/deepsight_scores.json
+/home/a.kanamarlapudi001/projects/omama-proj/avanith/deepsightv/deepsight_performance_metrics.json
+================================================================================
