@@ -2,3 +2,5 @@
 [Synthetic vs Real – Website](https://avanith12.github.io/Omama_data_analysis/website/)
 
 [Download Stats](https://avanith12.github.io/Omama_data_analysis/omama_db_downloads/downloads_map.html)
+
+[Synthetic vs Real – Website2](https://avanith12.github.io/Omama_data_analysis/website_6/)
