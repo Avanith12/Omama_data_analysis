@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>User Study</title>
+    <style>
+        body {
+            font-family: Arial;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #eee;
+        }
+        .box {
+            background: white;
+            padding: 30px;
+            text-align: center;
+        }
+        h1 {
+            margin: 10px 0;
+        }
+        .counter {
+            margin: 20px 0;
+            font-size: 16px;
+        }
+        .imgbox {
+            margin: 30px 0;
+            background: black;
+            padding: 20px;
+            min-height: 400px;
+        }
+        #img {
+            max-width: 100%;
+            max-height: 500px;
+            display: none;
+        }
+        .btnbox {
+            margin: 30px 0;
+        }
+        button {
+            padding: 15px 40px;
+            font-size: 16px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        #real {
+            background: green;
+            color: white;
+        }
+        #fake {
+            background: red;
+            color: white;
+        }
+        .results {
+            display: none;
+        }
+        .score {
+            font-size: 40px;
+            margin: 20px 0;
+            color: blue;
+        }
+        .details {
+            margin-top: 20px;
+            text-align: left;
+            background: #f5f5f5;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div id="study">
+            <h1>Mammogram Study</h1>
+            <p>Is this image Real or Fake?</p>
+            <div class="counter">
+                Image <span id="num">1</span> of <span id="total">6</span>
+            </div>
+            <div class="imgbox">
+                <img id="img" alt="image">
+            </div>
+            <div class="btnbox">
+                <button id="real" onclick="clicked('real')">REAL</button>
+                <button id="fake" onclick="clicked('fake')">FAKE</button>
+            </div>
+        </div>
+
+        <div id="results" class="results">
+            <h2>Done!</h2>
+            <div class="score">
+                <span id="score">0</span>/<span id="maxScore">6</span>
+            </div>
+            <p>Accuracy: <span id="acc">0%</span></p>
+            <div class="details" id="details"></div>
+        </div>
+    </div>
+
+    <script>
+        var imgList = [];
+        var imgNum = 0;
+        var userAnswers = [];
+
+        function loadData() {
+            fetch('images_data.json')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                imgList = data;
+                document.getElementById('total').textContent = imgList.length;
+                document.getElementById('maxScore').textContent = imgList.length;
+                showNext();
+            })
+            .catch(function(error) {
+                alert('Error loading images');
+            });
+        }
+
+        function showNext() {
+            if (imgNum >= imgList.length) {
+                showFinal();
+                return;
+            }
+
+            var img = document.getElementById('img');
+            img.src = imgList[imgNum].path;
+            img.style.display = 'block';
+            document.getElementById('num').textContent = imgNum + 1;
+        }
+
+        function clicked(answer) {
+            var correct = imgList[imgNum].type;
+            var right = (answer === correct);
+
+            userAnswers.push({
+                image: imgList[imgNum].filename,
+                userAnswer: answer,
+                correctAnswer: correct,
+                isCorrect: right
+            });
+
+            imgNum++;
+            showNext();
+        }
+
+        function getUserId() {
+            var saved = localStorage.getItem('userId_6img');
+            if (saved) {
+                var num = parseInt(saved) + 1;
+                localStorage.setItem('userId_6img', num.toString());
+                return num;
+            }
+            localStorage.setItem('userId_6img', '1');
+            return 1;
+        }
+
+        function downloadFile(userId) {
+            var correct = 0;
+            for (var i = 0; i < userAnswers.length; i++) {
+                if (userAnswers[i].isCorrect) {
+                    correct++;
+                }
+            }
+            var acc = (correct / userAnswers.length * 100).toFixed(1);
+
+            var data = {
+                studyVersion: '6img_fake_real',
+                userNumber: userId,
+                totalImages: userAnswers.length,
+                correctAnswers: correct,
+                accuracy: parseFloat(acc),
+                timestamp: new Date().toISOString(),
+                answers: userAnswers
+            };
+
+            var json = JSON.stringify(data, null, 2);
+            var blob = new Blob([json], { type: 'application/json' });
+            var url = URL.createObjectURL(blob);
+            var link = document.createElement('a');
+            link.href = url;
+            link.download = 'user_' + userId + '_results_6img.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            return { correct: correct, acc: acc };
+        }
+
+        function showFinal() {
+            document.getElementById('study').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+
+            var userId = getUserId();
+            var stats = downloadFile(userId);
+
+            document.getElementById('score').textContent = stats.correct;
+            document.getElementById('acc').textContent = stats.acc + '%';
+
+            var details = document.getElementById('details');
+            details.innerHTML = '<h3>User ' + userId + ' Results (6 images)</h3>';
+            details.innerHTML += '<p>Saved as: user_' + userId + '_results_6img.json</p>';
+            details.innerHTML += '<h4>Details:</h4>';
+
+            for (var i = 0; i < userAnswers.length; i++) {
+                var ans = userAnswers[i];
+                var mark = ans.isCorrect ? '✓' : '✗';
+                var color = ans.isCorrect ? 'green' : 'red';
+                var text = (i + 1) + '. ' + ans.image + ': You said ' + ans.userAnswer + ', Correct: ' + ans.correctAnswer + ' <span style="color:' + color + '">' + mark + '</span>';
+                details.innerHTML += '<div>' + text + '</div>';
+            }
+        }
+
+        window.onload = loadData;
+    </script>
+</body>
+</html>
