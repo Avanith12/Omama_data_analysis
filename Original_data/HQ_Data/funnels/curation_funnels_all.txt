@@ -1,0 +1,117 @@
+# HQ 4-view curation funnels (combined)
+# Paths reflect current HQ/ layout after reorganize.
+
+################################################################################
+# v2 — initial curation (size+scanner+4-view+balance)
+################################################################################
+=== folder: dh_dcm_ast ===
+  total study folders on disk: 186764
+  total unique studies in CSV: 182481
+  choose cancer:               4381
+  choose noncancer:            178100
+  cancer + noncancer:          182481
+  cancer after 4-view:         2232  (lost 2149)
+  noncancer after 4-view:      158216  (lost 19884)
+  cancer after size+scanner:   2221  (lost 11)
+  noncancer after size+scanner:157478  (lost 738)
+  folder time: 23.8m
+
+=== folder: dh_dh0new ===
+  total study folders on disk: 14990
+  total unique studies in CSV: 13985
+  choose cancer:               159
+  choose noncancer:            13826
+  cancer + noncancer:          13985
+  cancer after 4-view:         129  (lost 30)
+  noncancer after 4-view:      13442  (lost 384)
+  cancer after size+scanner:   129  (lost 0)
+  noncancer after size+scanner:13442  (lost 0)
+  folder time: 1.7m
+
+=== folder: dh_dh2 ===
+  total study folders on disk: 2438
+  total unique studies in CSV: 2286
+  choose cancer:               13
+  choose noncancer:            2273
+  cancer + noncancer:          2286
+  cancer after 4-view:         10  (lost 3)
+  noncancer after 4-view:      1855  (lost 418)
+  cancer after size+scanner:   10  (lost 0)
+  noncancer after size+scanner:1855  (lost 0)
+  folder time: 0.3m
+
+=== TOTALS ===
+cancer clean:    2360
+noncancer clean: 172775
+balance: keep all cancer=2360, sample noncancer=2360
+final studies:   4720
+saved: HQ/manifests/pkl/hq_4view_manifest_v2.pkl
+saved: HQ/manifests/csv/hq_4view_manifest_v2.csv
+TOTAL time: 25.8m
+
+################################################################################
+# v3 — exclude bad_images_v2 (rebalance)
+################################################################################
+=== HQ v3 (manual bad exclude from v2) ===
+bad_images file: HQ/bad_image_paths/bad_images_v2.txt
+unique bad study_ids in txt: 20
+dropped from v2: 20
+cancer after drop: 2342
+noncancer after drop (before balance): 2358
+balance seed=42: cancer=2342, noncancer=2342
+final studies: 4684
+saved: HQ/manifests/csv/hq_4view_manifest_v3.csv
+saved: HQ/manifests/pkl/hq_4view_manifest_v3.pkl
+
+################################################################################
+# v4 — exclude bad_images_v3 (rebalance)
+################################################################################
+=== HQ v4 (manual bad exclude from v3) ===
+bad_images file: HQ/bad_image_paths/bad_images_v3.txt
+unique bad study_ids in txt: 75
+dropped from v3: 75
+cancer after drop: 2281
+noncancer after drop (before balance): 2328
+balance seed=42: cancer=2281, noncancer=2281
+final studies: 4562
+saved: HQ/manifests/csv/hq_4view_manifest_v4.csv
+saved: HQ/manifests/pkl/hq_4view_manifest_v4.pkl
+
+################################################################################
+# v5 — exclude bad_images_v4 (NO rebalance)
+################################################################################
+=== HQ v5 (manual bad exclude from v4, NO rebalance) ===
+bad_images file: HQ/bad_image_paths/bad_images_v4.txt
+unique bad study_ids in txt: 60
+dropped from v4: 60
+cancer remaining: 2228
+noncancer remaining: 2274
+final studies: 4502
+saved: HQ/manifests/csv/hq_4view_manifest_v5.csv
+saved: HQ/manifests/pkl/hq_4view_manifest_v5.pkl
+
+################################################################################
+# v6 — exclude bad_images_v5_cancer (NO rebalance; cancer curated)
+################################################################################
+=== HQ v6 curated cancer (exclude bad cancers from v5, NO rebalance) ===
+bad_images file: HQ/bad_image_paths/bad_images_v5_cancer.txt
+unique bad study_ids: 171
+dropped from v5: 171
+cancer remaining (curated): 2057
+noncancer remaining (not curated yet): 2274
+final studies: 4331
+saved: HQ/manifests/csv/hq_v6_curated_cancer.csv
+saved: HQ/manifests/pkl/hq_v6_curated_cancer.pkl
+
+################################################################################
+# FINAL — exclude bad_images_v6_noncancer (NO rebalance; both curated)
+################################################################################
+=== final_curated_list (exclude bad noncancers from v6, NO rebalance) ===
+bad_images file: HQ/bad_image_paths/bad_images_v6_noncancer.txt
+unique bad study_ids: 37
+dropped from v6: 37
+cancer remaining (curated): 2057
+noncancer remaining (curated): 2237
+final studies: 4294
+saved: HQ/manifests/csv/final_curated_list.csv
+saved: HQ/manifests/pkl/final_curated_list.pkl

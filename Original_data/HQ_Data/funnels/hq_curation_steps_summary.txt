@@ -1,0 +1,36 @@
+HQ curation steps 
+====================================
+
+Step 1  Total studies on disk
+        204,192 studies
+        
+
+Step 2  Choose cancer / non-cancer (from label CSVs)
+        cancer:       4,553   (IndexCancer 3,789 + PreIndexCancer 764)
+        non-cancer: 194,199   ← NonCancer
+        [removed from Step 1: 5,440 studies | 21,760 images]
+
+Step 3  Keep only 4-view studies
+        cancer:       2,371   [removed: 2,182 studies | 8,728 images]
+        non-cancer: 173,513   [removed: 20,686 studies | 82,744 images]
+       
+
+Step 4  Size + scanner filter
+        cancer:       2,360   (IndexCancer 1,696 + PreIndexCancer 664)
+                      [removed: 11 studies | 44 images]
+        non-cancer: 172,775   [removed: 738 studies | 2,952 images]
+
+Step 5  Balance (keep all cancer, sample non-cancer)
+        cancer:       2,360   (IndexCancer 1,696 + PreIndexCancer 664)  [removed: 0]
+        non-cancer:   2,360   [removed: 170,415 studies | 681,660 images]
+        total:        4,720 studies | 18,880 images
+
+Step 6  Manual filtering (net → final)
+        cancer:       2,057   (IndexCancer 1,415 + PreIndexCancer 642)
+                      [removed: 303 studies | 1,212 images]
+        non-cancer:   2,237   [removed: 123 studies | 492 images]
+
+FINAL
+        4,294 studies | 17,176 images
+        cancer 2,057 (IndexCancer 1,415 + PreIndexCancer 642)
+        non-cancer 2,237

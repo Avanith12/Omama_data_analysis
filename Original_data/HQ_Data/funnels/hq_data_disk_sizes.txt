@@ -1,0 +1,29 @@
+HQ_Data disk sizes (du -sh)
+===========================
+
+Folders
+-------
+Folder                    Size     Studies   NPZ      JSON
+--------------------------------------------------------------
+original_study_level      78G      4,294     17,176   17,176
+256_study_level           703M     4,294     17,176   17,176
+512_study_level           3.6G     4,294     17,176   17,176
+1024_study_level          12G      4,294     17,176   17,176
+--------------------------------------------------------------
+Total (folders)           ~94G
+
+
+Tar archives
+------------
+Archive                         Size
+--------------------------------------------------------------
+original_study_level.tar        77G
+256_study_level.tar             677M
+512_study_level.tar             2.5G
+1024_study_level.tar            11G
+--------------------------------------------------------------
+Total (tars)                    ~91G
+
+
+Folders + tars (approx)         ~185G
+
