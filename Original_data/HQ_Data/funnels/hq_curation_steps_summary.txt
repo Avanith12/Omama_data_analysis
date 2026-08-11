@@ -16,6 +16,8 @@ Step 3  Keep only 4-view studies
        
 
 Step 4  Size + scanner filter
+        size:     Rows >= 1024 AND Columns >= 1024
+        scanner:  Manufacturer contains GE or HOLOGIC or LORAD
         cancer:       2,360   (IndexCancer 1,696 + PreIndexCancer 664)
                       [removed: 11 studies | 44 images]
         non-cancer: 172,775   [removed: 738 studies | 2,952 images]
