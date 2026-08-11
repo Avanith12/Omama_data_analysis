@@ -1,4 +1,4 @@
-HQ_Data disk sizes (du -sh)
+HQ_Data disk sizes 
 ===========================
 
 Folders
