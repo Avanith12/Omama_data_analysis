@@ -16,8 +16,8 @@ Step 3  Keep only 4-view studies
        
 
 Step 4  Size + scanner filter
-        size:     Rows >= 1024 AND Columns >= 1024
-        scanner:  Manufacturer contains GE or HOLOGIC or LORAD
+          size:     Rows >= 1024 AND Columns >= 1024
+          scanner:  Manufacturer contains GE or HOLOGIC or LORAD
         cancer:       2,360   (IndexCancer 1,696 + PreIndexCancer 664)
                       [removed: 11 studies | 44 images]
         non-cancer: 172,775   [removed: 738 studies | 2,952 images]
@@ -36,3 +36,22 @@ FINAL
         4,294 studies | 17,176 images
         cancer 2,057 (IndexCancer 1,415 + PreIndexCancer 642)
         non-cancer 2,237
+
+Step 7  DeepSight coords (drop whole study if any view missing coords)
+        cancer:       1,958   [removed: 99 studies | 396 images]
+        non-cancer:   2,181   [removed: 56 studies | 224 images]
+        [removed total: 155 studies | 620 images]
+
+FINAL (v2 DeepSight-complete)
+        4,139 studies | 16,556 images
+        cancer 1,958 (IndexCancer 1,340 + PreIndexCancer 618)
+        non-cancer 2,181
+
+Step 8  Manual drop (odd study on visual QC)
+        dropped: 2.25.100728502639980456404134224979379881902 (IndexCancer)
+        [removed: 1 study | 4 images]
+
+FINAL (v3 after QC drop)
+        4,138 studies | 16,552 images
+        cancer 1,957 (IndexCancer 1,339 + PreIndexCancer 618)
+        non-cancer 2,181
