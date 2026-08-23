@@ -1,1 +1,0 @@
-{"PatientID": "DH2RL4Z25JQX", "View": "cranio-caudal", "WindowCenter": [3121.0, 3151.0, 3067.0], "WindowWidth": [900.0, 750.0, 1050.0], "WindowCenterWidthExplanation": ["NORMAL", "HARDER", "SOFTER"], "ImagerPixelSpacing": [0.1, 0.1], "ImageLaterality": "R", "coords": [1321.0, 1092.0, 1865.0, 1758.0], "score": 0.9945477247238159, "label": "IndexCancer"}
