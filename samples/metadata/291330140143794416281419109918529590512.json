@@ -1,1 +1,0 @@
-{"PatientID": "DHY9EY6TKG32", "View": "cranio-caudal", "WindowCenter": [2905.0, 2977.0, 2797.0], "WindowWidth": [900.0, 750.0, 1050.0], "WindowCenterWidthExplanation": ["NORMAL", "HARDER", "SOFTER"], "ImagerPixelSpacing": [0.09409090909091, 0.09409090909091], "ImageLaterality": "L", "coords": [26.0, 999.0, 730.0, 1661.0], "score": 0.9796226024627686, "label": "IndexCancer"}

@@ -1,0 +1,1 @@
+{"PatientID": "DH53FZPEIBFT", "View": "cranio-caudal", "WindowCenter": [2875.0, 2929.0, 2785.0], "WindowWidth": [900.0, 750.0, 1050.0], "WindowCenterWidthExplanation": ["NORMAL", "HARDER", "SOFTER"], "ImagerPixelSpacing": [0.09409090909091, 0.09409090909091], "ImageLaterality": "R", "label": "PreIndexCancer", "coords": [922.0, 992.0, 1205.0, 1276.0], "score": 0.19047486782073975}
