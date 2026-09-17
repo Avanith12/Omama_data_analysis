@@ -1,0 +1,53 @@
+HQ curation steps (final, 7-step)
+====================================
+Step 8 (one IndexCancer visual QC drop) is folded into Step 6.
+Final counts match prior v3 release.
+
+Step 1  Total studies on disk
+        204,192 studies
+
+
+Step 2  Choose cancer / non-cancer (from label CSVs)
+        cancer:       4,553   (IndexCancer 3,789 + PreIndexCancer 764)
+        non-cancer: 194,199   <- NonCancer
+        [removed from Step 1: 5,440 studies | 21,760 images]
+
+
+Step 3  Keep only 4-view studies
+        cancer:       2,371   [removed: 2,182 studies | 8,728 images]
+        non-cancer: 173,513   [removed: 20,686 studies | 82,744 images]
+
+
+Step 4  Size + scanner filter
+          size:     Rows >= 1024 AND Columns >= 1024
+          scanner:  Manufacturer contains GE or HOLOGIC or LORAD
+        cancer:       2,360   (IndexCancer 1,696 + PreIndexCancer 664)
+                      [removed: 11 studies | 44 images]
+        non-cancer: 172,775   [removed: 738 studies | 2,952 images]
+
+
+Step 5  Balance (keep all cancer, sample non-cancer)
+        cancer:       2,360   (IndexCancer 1,696 + PreIndexCancer 664)  [removed: 0]
+        non-cancer:   2,360   [removed: 170,415 studies | 681,660 images]
+        total:        4,720 studies | 18,880 images
+
+
+Step 6  Manual filtering / visual QC
+        (includes former Step 8 odd IndexCancer study drop)
+        cancer:       2,056   (IndexCancer 1,414 + PreIndexCancer 642)
+                      [removed: 304 studies | 1,216 images]
+        non-cancer:   2,237   [removed: 123 studies | 492 images]
+        after Step 6: 4,293 studies | 17,172 images
+
+
+Step 7  DeepSight coords (drop whole study if any view missing coords)
+        cancer:       1,957   (IndexCancer 1,339 + PreIndexCancer 618)
+                      [removed: 99 studies | 396 images]
+        non-cancer:   2,181   [removed: 56 studies | 224 images]
+        [removed total: 155 studies | 620 images]
+
+
+FINAL
+        4,138 studies | 16,552 images
+        cancer 1,957 (IndexCancer 1,339 + PreIndexCancer 618)
+        non-cancer 2,181
